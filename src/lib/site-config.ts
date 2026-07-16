@@ -1,6 +1,6 @@
 export const siteConfig = {
   name: "Premier Equity",
-  legalName: "Premier Equity Co. LLC",
+  legalName: "Premier Equity LLC",
   tagline: "Rooted in Land. Built on Trust.",
   city: "San Antonio, TX",
   phoneDisplay: "(210) 848-2971",
