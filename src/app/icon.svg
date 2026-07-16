@@ -1,0 +1,16 @@
+<svg width="240" height="240" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="fav-olive" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5ca11e" />
+      <stop offset="1" stop-color="#4a8318" />
+    </linearGradient>
+  </defs>
+  <rect width="240" height="240" rx="40" fill="#ffffff" />
+  <circle cx="120" cy="120" r="104" stroke="#0f422c" stroke-width="4" />
+  <circle cx="120" cy="120" r="93" stroke="#5ca11e" stroke-width="2" />
+  <rect x="70" y="150" width="26" height="42" rx="2" fill="#0f422c" />
+  <rect x="104" y="126" width="26" height="66" rx="2" fill="#0f422c" />
+  <rect x="138" y="108" width="26" height="84" rx="2" fill="url(#fav-olive)" />
+  <polygon points="82,112 120,70 120,112" fill="#0f422c" />
+  <polygon points="120,70 158,112 120,112" fill="url(#fav-olive)" />
+</svg>
