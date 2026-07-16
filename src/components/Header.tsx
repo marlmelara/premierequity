@@ -1,5 +1,8 @@
+"use client";
+
 import { Logo } from "@/components/Logo";
 import { siteConfig } from "@/lib/site-config";
+import { scrollToTopSmooth } from "@/lib/scroll";
 
 export function Header() {
   return (
@@ -11,6 +14,7 @@ export function Header() {
             <a
               key={link.href}
               href={link.href}
+              onClick={link.href === "/" ? scrollToTopSmooth : undefined}
               className={i === 0 ? "text-olive" : "hover:text-forest transition-colors"}
             >
               {link.label}
