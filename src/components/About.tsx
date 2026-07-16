@@ -20,7 +20,7 @@ const steps = [
 
 export function About() {
   return (
-    <section id="approach" className="bg-white">
+    <section id="approach" className="scroll-mt-24 bg-white">
       <div className="mx-auto max-w-7xl px-6 py-20">
         <p className="text-sm font-semibold uppercase tracking-widest text-olive">
           About Us

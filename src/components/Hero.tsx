@@ -39,7 +39,7 @@ export function Hero() {
           </ul>
         </div>
 
-        <div id="hero-form">
+        <div id="hero-form" className="scroll-mt-24">
           <LeadForm idPrefix="hero" />
         </div>
       </div>

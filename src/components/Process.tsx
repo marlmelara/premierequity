@@ -19,7 +19,7 @@ const steps = [
 
 export function Process() {
   return (
-    <section id="advantage" className="bg-cream">
+    <section id="advantage" className="scroll-mt-24 bg-cream">
       <div className="mx-auto max-w-7xl px-6 py-20 grid gap-14 lg:grid-cols-2 items-start">
         <div>
           <h2 className="font-heading text-3xl sm:text-4xl font-semibold text-neutral-900">
