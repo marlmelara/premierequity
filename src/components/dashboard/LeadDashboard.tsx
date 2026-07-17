@@ -60,6 +60,8 @@ export function LeadDashboard({ initialLeads }: { initialLeads: RawLead[] }) {
   const [filter, setFilter] = useState<"all" | LeadStatus>("all");
   const [query, setQuery] = useState("");
   const [busyId, setBusyId] = useState<string | null>(null);
+  const [confirmingId, setConfirmingId] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const counts = useMemo(() => {
@@ -118,6 +120,22 @@ export function LeadDashboard({ initialLeads }: { initialLeads: RawLead[] }) {
       );
     }
     setBusyId(null);
+  }
+
+  async function deleteLead(id: string) {
+    setDeletingId(id);
+    setError(null);
+    const supabase = createSupabaseBrowserClient();
+    const { error } = await supabase.from("leads").delete().eq("id", id);
+    if (error) {
+      setError(
+        "Couldn't delete that lead. If this keeps happening, the database may still need the delete permission — check the setup SQL.",
+      );
+    } else {
+      setLeads((ls) => ls.filter((l) => l.id !== id));
+    }
+    setDeletingId(null);
+    setConfirmingId(null);
   }
 
   return (
@@ -191,6 +209,7 @@ export function LeadDashboard({ initialLeads }: { initialLeads: RawLead[] }) {
                 <Th>Reason</Th>
                 <Th>Submitted</Th>
                 <Th>Updated</Th>
+                <th className="px-4 py-3" aria-label="Actions" />
               </tr>
             </thead>
             <tbody className="divide-y divide-neutral-100 text-neutral-700">
@@ -230,6 +249,45 @@ export function LeadDashboard({ initialLeads }: { initialLeads: RawLead[] }) {
                     suppressHydrationWarning
                   >
                     {timeAgo(lead.status_updated_at) ?? "—"}
+                  </td>
+                  <td className="whitespace-nowrap px-4 py-3 text-right">
+                    {confirmingId === lead.id ? (
+                      <span className="inline-flex items-center gap-2">
+                        <span className="text-xs text-neutral-500">Delete?</span>
+                        <button
+                          type="button"
+                          onClick={() => deleteLead(lead.id)}
+                          disabled={deletingId === lead.id}
+                          className="rounded-md bg-rose-600 px-2 py-1 text-xs font-medium text-white transition hover:bg-rose-700 disabled:opacity-60"
+                        >
+                          {deletingId === lead.id ? "Deleting…" : "Yes"}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setConfirmingId(null)}
+                          className="rounded-md px-2 py-1 text-xs font-medium text-neutral-500 transition hover:bg-neutral-100"
+                        >
+                          Cancel
+                        </button>
+                      </span>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => setConfirmingId(lead.id)}
+                        aria-label={`Delete lead from ${lead.name}`}
+                        className="rounded-md p-1.5 text-neutral-400 transition hover:bg-rose-50 hover:text-rose-600"
+                      >
+                        <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                          <path
+                            d="M4 7h16M9 7V5a1 1 0 011-1h4a1 1 0 011 1v2m-1 0v12a1 1 0 01-1 1H8a1 1 0 01-1-1V7h10z"
+                            stroke="currentColor"
+                            strokeWidth="1.6"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))}

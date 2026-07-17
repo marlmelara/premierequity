@@ -88,6 +88,12 @@ create policy "Admins can update leads"
   on public.leads for update to authenticated
   using (public.is_admin()) with check (public.is_admin());
 
+-- Admins may delete leads (used by the dashboard to remove test/spam entries).
+drop policy if exists "Admins can delete leads" on public.leads;
+create policy "Admins can delete leads"
+  on public.leads for delete to authenticated
+  using (public.is_admin());
+
 -- ── Seed the owner as an admin ──────────────────────────────────────────────
 -- The matching Supabase Auth user must be created separately
 -- (Authentication → Users → Add user, with "Auto Confirm").
