@@ -56,6 +56,38 @@ create policy "Admins can read leads"
   on public.leads for select to authenticated
   using (public.is_admin());
 
+-- ── Lead pipeline status (dashboard labels) ─────────────────────────────────
+alter table public.leads
+  add column if not exists status text not null default 'new',
+  add column if not exists status_updated_at timestamptz;
+
+do $$ begin
+  alter table public.leads add constraint leads_status_check
+    check (status in ('new','contacted','negotiating','offer_sent','won','lost'));
+exception when duplicate_object then null; end $$;
+
+-- Stamp status_updated_at automatically whenever the status actually changes.
+create or replace function public.stamp_lead_status_change()
+returns trigger language plpgsql as $$
+begin
+  if new.status is distinct from old.status then
+    new.status_updated_at = now();
+  end if;
+  return new;
+end;
+$$;
+
+drop trigger if exists trg_stamp_lead_status on public.leads;
+create trigger trg_stamp_lead_status
+  before update on public.leads
+  for each row execute function public.stamp_lead_status_change();
+
+-- Admins may update leads (used by the dashboard to set the status label).
+drop policy if exists "Admins can update leads" on public.leads;
+create policy "Admins can update leads"
+  on public.leads for update to authenticated
+  using (public.is_admin()) with check (public.is_admin());
+
 -- ── Seed the owner as an admin ──────────────────────────────────────────────
 -- The matching Supabase Auth user must be created separately
 -- (Authentication → Users → Add user, with "Auto Confirm").

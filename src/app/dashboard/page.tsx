@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { BrandMark } from "@/components/BrandMark";
+import { LeadDashboard } from "@/components/dashboard/LeadDashboard";
 
 export const metadata = {
   title: "Lead Dashboard | Premier Equity",
@@ -9,17 +10,6 @@ export const metadata = {
 
 // Always render fresh — this reads per-request auth + live data.
 export const dynamic = "force-dynamic";
-
-type Lead = {
-  id: string;
-  name: string;
-  email: string;
-  phone: string;
-  acres: string;
-  address: string;
-  reason: string | null;
-  created_at: string;
-};
 
 async function signOut() {
   "use server";
@@ -61,7 +51,7 @@ export default async function DashboardPage() {
         </form>
       </header>
 
-      <div className="mx-auto max-w-6xl px-6 py-8">
+      <div className="mx-auto max-w-7xl px-6 py-8">
         {!isAdmin ? (
           <div className="rounded-xl border border-amber-200 bg-amber-50 p-6 text-amber-800">
             This account isn&apos;t authorized to view leads. Ask an administrator
@@ -69,14 +59,14 @@ export default async function DashboardPage() {
             list.
           </div>
         ) : (
-          <LeadsTable />
+          <Submissions />
         )}
       </div>
     </main>
   );
 }
 
-async function LeadsTable() {
+async function Submissions() {
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase
     .from("leads")
@@ -91,73 +81,15 @@ async function LeadsTable() {
     );
   }
 
-  const leads = (data ?? []) as Lead[];
-
   return (
     <>
-      <div className="mb-4 flex items-baseline justify-between">
-        <h1 className="font-heading text-2xl font-semibold text-forest">
-          Submissions
-        </h1>
-        <span className="text-sm text-forest/60">
-          {leads.length} total
-        </span>
+      <div className="mb-6">
+        <h1 className="font-heading text-2xl font-semibold text-forest">Submissions</h1>
+        <p className="mt-1 text-sm text-neutral-500">
+          Label each lead as you work it — changes are timestamped automatically.
+        </p>
       </div>
-
-      {leads.length === 0 ? (
-        <div className="rounded-xl border border-forest/10 bg-white p-10 text-center text-forest/60">
-          No submissions yet. New leads from the site will appear here.
-        </div>
-      ) : (
-        <div className="overflow-x-auto rounded-xl border border-forest/10 bg-white">
-          <table className="w-full min-w-[900px] text-left text-sm">
-            <thead className="border-b border-forest/10 bg-forest/5 text-forest">
-              <tr>
-                <th className="px-4 py-3 font-semibold">Date</th>
-                <th className="px-4 py-3 font-semibold">Name</th>
-                <th className="px-4 py-3 font-semibold">Email</th>
-                <th className="px-4 py-3 font-semibold">Phone</th>
-                <th className="px-4 py-3 font-semibold">Acres</th>
-                <th className="px-4 py-3 font-semibold">Address / Parcel</th>
-                <th className="px-4 py-3 font-semibold">Reason</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-forest/5 text-forest/90">
-              {leads.map((lead) => (
-                <tr key={lead.id} className="align-top hover:bg-forest/[0.02]">
-                  <td className="whitespace-nowrap px-4 py-3 text-forest/60">
-                    {new Date(lead.created_at).toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
-                    })}
-                  </td>
-                  <td className="px-4 py-3 font-medium">{lead.name}</td>
-                  <td className="px-4 py-3">
-                    <a
-                      href={`mailto:${lead.email}`}
-                      className="text-forest underline-offset-2 hover:underline"
-                    >
-                      {lead.email}
-                    </a>
-                  </td>
-                  <td className="whitespace-nowrap px-4 py-3">
-                    <a
-                      href={`tel:${lead.phone}`}
-                      className="text-forest underline-offset-2 hover:underline"
-                    >
-                      {lead.phone}
-                    </a>
-                  </td>
-                  <td className="px-4 py-3">{lead.acres}</td>
-                  <td className="px-4 py-3">{lead.address}</td>
-                  <td className="px-4 py-3 text-forest/70">{lead.reason ?? "—"}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+      <LeadDashboard initialLeads={data ?? []} />
     </>
   );
 }
