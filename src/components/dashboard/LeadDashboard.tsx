@@ -178,28 +178,28 @@ export function LeadDashboard({ initialLeads }: { initialLeads: RawLead[] }) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search name, email, address…"
-            className="w-full rounded-lg border border-neutral-300 bg-white py-2 pl-9 pr-3 text-sm text-neutral-800 outline-none transition focus:border-forest focus:ring-2 focus:ring-forest/20"
+            className="w-full rounded-lg border border-neutral-300 bg-white py-2 pl-9 pr-3 text-sm text-neutral-800 outline-none transition focus:border-forest focus:ring-2 focus:ring-forest/20 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100 dark:placeholder:text-neutral-500 dark:focus:border-emerald-500 dark:focus:ring-emerald-500/20"
           />
         </div>
       </div>
 
       {error && (
-        <div className="rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+        <div className="rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700 dark:border-rose-500/30 dark:bg-rose-500/10 dark:text-rose-300">
           {error}
         </div>
       )}
 
       {/* Results */}
       {filtered.length === 0 ? (
-        <div className="rounded-xl border border-neutral-200 bg-white p-12 text-center text-neutral-500">
+        <div className="rounded-xl border border-neutral-200 bg-white p-12 text-center text-neutral-500 dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-400">
           {leads.length === 0
             ? "No submissions yet. New leads from the site will appear here."
             : "No leads match this filter."}
         </div>
       ) : (
-        <div className="overflow-x-auto rounded-xl border border-neutral-200 bg-white shadow-sm">
+        <div className="overflow-x-auto rounded-xl border border-neutral-200 bg-white shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
           <table className="w-full min-w-[980px] text-left text-sm">
-            <thead className="border-b border-neutral-200 bg-neutral-50 text-neutral-500">
+            <thead className="border-b border-neutral-200 bg-neutral-50 text-neutral-500 dark:border-neutral-800 dark:bg-neutral-800/40 dark:text-neutral-400">
               <tr>
                 <Th>Status</Th>
                 <Th>Name</Th>
@@ -212,9 +212,9 @@ export function LeadDashboard({ initialLeads }: { initialLeads: RawLead[] }) {
                 <th className="px-4 py-3" aria-label="Actions" />
               </tr>
             </thead>
-            <tbody className="divide-y divide-neutral-100 text-neutral-700">
+            <tbody className="divide-y divide-neutral-100 text-neutral-700 dark:divide-neutral-800 dark:text-neutral-300">
               {filtered.map((lead) => (
-                <tr key={lead.id} className="align-top transition-colors hover:bg-neutral-50/70">
+                <tr key={lead.id} className="align-top transition-colors hover:bg-neutral-50/70 dark:hover:bg-neutral-800/40">
                   <td className="px-4 py-3">
                     <StatusMenu
                       value={lead.status}
@@ -222,21 +222,21 @@ export function LeadDashboard({ initialLeads }: { initialLeads: RawLead[] }) {
                       onChange={(next) => changeStatus(lead.id, next)}
                     />
                   </td>
-                  <td className="px-4 py-3 font-medium text-neutral-900">{lead.name}</td>
+                  <td className="px-4 py-3 font-medium text-neutral-900 dark:text-neutral-100">{lead.name}</td>
                   <td className="px-4 py-3">
                     <div className="flex flex-col gap-0.5">
-                      <a href={`mailto:${lead.email}`} className="text-forest hover:underline">
+                      <a href={`mailto:${lead.email}`} className="text-forest hover:underline dark:text-emerald-400">
                         {lead.email}
                       </a>
-                      <a href={`tel:${lead.phone}`} className="text-neutral-500 hover:underline">
+                      <a href={`tel:${lead.phone}`} className="text-neutral-500 hover:underline dark:text-neutral-400">
                         {lead.phone}
                       </a>
                     </div>
                   </td>
                   <td className="px-4 py-3">{lead.acres}</td>
                   <td className="px-4 py-3">{lead.address}</td>
-                  <td className="max-w-xs px-4 py-3 text-neutral-500">{lead.reason ?? "—"}</td>
-                  <td className="whitespace-nowrap px-4 py-3 text-neutral-500" title={fullDate(lead.created_at)}>
+                  <td className="max-w-xs px-4 py-3 text-neutral-500 dark:text-neutral-400">{lead.reason ?? "—"}</td>
+                  <td className="whitespace-nowrap px-4 py-3 text-neutral-500 dark:text-neutral-400" title={fullDate(lead.created_at)}>
                     {new Date(lead.created_at).toLocaleDateString("en-US", {
                       month: "short",
                       day: "numeric",
@@ -244,7 +244,7 @@ export function LeadDashboard({ initialLeads }: { initialLeads: RawLead[] }) {
                     })}
                   </td>
                   <td
-                    className="whitespace-nowrap px-4 py-3 text-neutral-500"
+                    className="whitespace-nowrap px-4 py-3 text-neutral-500 dark:text-neutral-400"
                     title={lead.status_updated_at ? fullDate(lead.status_updated_at) : "Not updated yet"}
                     suppressHydrationWarning
                   >
@@ -265,7 +265,7 @@ export function LeadDashboard({ initialLeads }: { initialLeads: RawLead[] }) {
                         <button
                           type="button"
                           onClick={() => setConfirmingId(null)}
-                          className="rounded-md px-2 py-1 text-xs font-medium text-neutral-500 transition hover:bg-neutral-100"
+                          className="rounded-md px-2 py-1 text-xs font-medium text-neutral-500 transition hover:bg-neutral-100 dark:text-neutral-400 dark:hover:bg-neutral-800"
                         >
                           Cancel
                         </button>
@@ -275,7 +275,7 @@ export function LeadDashboard({ initialLeads }: { initialLeads: RawLead[] }) {
                         type="button"
                         onClick={() => setConfirmingId(lead.id)}
                         aria-label={`Delete lead from ${lead.name}`}
-                        className="rounded-lg p-2 text-neutral-400 transition hover:bg-rose-50 hover:text-rose-600"
+                        className="rounded-lg p-2 text-neutral-400 transition hover:bg-rose-50 hover:text-rose-600 dark:text-neutral-500 dark:hover:bg-rose-500/10 dark:hover:text-rose-400"
                       >
                         <svg
                           className="h-[18px] w-[18px]"
@@ -302,7 +302,7 @@ export function LeadDashboard({ initialLeads }: { initialLeads: RawLead[] }) {
         </div>
       )}
 
-      <p className="text-xs text-neutral-400">
+      <p className="text-xs text-neutral-400 dark:text-neutral-500">
         Showing {filtered.length} of {leads.length} {leads.length === 1 ? "lead" : "leads"}.
       </p>
     </div>
@@ -335,12 +335,12 @@ function FilterPill({
       className={`inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-sm font-medium ring-1 transition ${
         active
           ? activeClasses
-          : "bg-white text-neutral-600 ring-neutral-300 hover:bg-neutral-50"
+          : "bg-white text-neutral-600 ring-neutral-300 hover:bg-neutral-50 dark:bg-neutral-800 dark:text-neutral-300 dark:ring-neutral-700 dark:hover:bg-neutral-700/60"
       }`}
     >
       {dot && <span className={`h-2 w-2 rounded-full ${active ? "bg-white/90" : dot}`} />}
       {label}
-      <span className={`text-xs ${active ? "text-white/80" : "text-neutral-400"}`}>{count}</span>
+      <span className={`text-xs ${active ? "text-white/80" : "text-neutral-400 dark:text-neutral-500"}`}>{count}</span>
     </button>
   );
 }
@@ -414,7 +414,7 @@ function StatusMenu({
           <div
             ref={menuRef}
             style={{ position: "fixed", top: coords.top, left: coords.left }}
-            className="z-50 w-44 overflow-hidden rounded-xl border border-neutral-200 bg-white p-1 shadow-lg"
+            className="z-50 w-44 overflow-hidden rounded-xl border border-neutral-200 bg-white p-1 shadow-lg dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-black/40"
           >
             {LEAD_STATUSES.map((s) => (
               <button
@@ -424,12 +424,12 @@ function StatusMenu({
                   onChange(s.key);
                   setOpen(false);
                 }}
-                className="flex w-full items-center gap-2 rounded-lg px-2.5 py-2 text-left text-sm text-neutral-700 transition hover:bg-neutral-100"
+                className="flex w-full items-center gap-2 rounded-lg px-2.5 py-2 text-left text-sm text-neutral-700 transition hover:bg-neutral-100 dark:text-neutral-200 dark:hover:bg-neutral-700"
               >
                 <span className={`h-2 w-2 rounded-full ${s.dot}`} />
                 <span className="flex-1">{s.label}</span>
                 {s.key === value && (
-                  <svg className="h-4 w-4 text-forest" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <svg className="h-4 w-4 text-forest dark:text-emerald-400" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                     <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 )}
