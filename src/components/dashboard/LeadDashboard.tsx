@@ -275,16 +275,22 @@ export function LeadDashboard({ initialLeads }: { initialLeads: RawLead[] }) {
                         type="button"
                         onClick={() => setConfirmingId(lead.id)}
                         aria-label={`Delete lead from ${lead.name}`}
-                        className="rounded-md p-1.5 text-neutral-400 transition hover:bg-rose-50 hover:text-rose-600"
+                        className="rounded-lg p-2 text-neutral-400 transition hover:bg-rose-50 hover:text-rose-600"
                       >
-                        <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                          <path
-                            d="M4 7h16M9 7V5a1 1 0 011-1h4a1 1 0 011 1v2m-1 0v12a1 1 0 01-1 1H8a1 1 0 01-1-1V7h10z"
-                            stroke="currentColor"
-                            strokeWidth="1.6"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
+                        <svg
+                          className="h-[18px] w-[18px]"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.7"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          aria-hidden="true"
+                        >
+                          <path d="M3 6h18" />
+                          <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                          <path d="M19 6l-.84 13.1A2 2 0 0 1 16.16 21H7.84a2 2 0 0 1-2-1.9L5 6" />
+                          <path d="M10 11v5M14 11v5" />
                         </svg>
                       </button>
                     )}
