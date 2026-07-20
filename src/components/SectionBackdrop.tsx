@@ -7,7 +7,9 @@ import Image from "next/image";
 // renders and the section keeps its normal background color — so it's safe to
 // leave a placeholder until real photos are added.
 //
-// The parent <section> must be `relative` (and usually `overflow-hidden`).
+// The parent <section> must be `relative isolate` (isolate makes a stacking
+// context so this -z-10 layer sits above the section's own background but below
+// the content) and usually `overflow-hidden`.
 export function SectionBackdrop({
   src,
   overlay = "cream",
@@ -19,7 +21,7 @@ export function SectionBackdrop({
   if (!src) return null;
 
   const overlayClass = {
-    cream: "bg-cream/85",
+    cream: "bg-cream/70",
     light: "bg-white/80",
     dark: "bg-forest-dark/70",
   }[overlay];

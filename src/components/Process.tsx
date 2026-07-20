@@ -1,8 +1,7 @@
 import { SectionBackdrop } from "@/components/SectionBackdrop";
 
-// Optional background photo behind the timeline. Drop an image in
-// /public/backdrops/ and set this to e.g. "/backdrops/process.jpg".
-const PROCESS_BACKDROP = "";
+// Background illustration behind the timeline (soft rolling-hills landscape).
+const PROCESS_BACKDROP = "/backdrops/process.jpg";
 
 const steps = [
   {
@@ -27,7 +26,7 @@ export function Process() {
   return (
     <section
       id="advantage"
-      className="relative scroll-mt-8 overflow-hidden bg-cream"
+      className="relative isolate scroll-mt-8 overflow-hidden bg-cream"
     >
       <SectionBackdrop src={PROCESS_BACKDROP} overlay="cream" />
 
