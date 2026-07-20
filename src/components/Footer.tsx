@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Logo } from "@/components/Logo";
 import { siteConfig } from "@/lib/site-config";
 import { scrollToTopSmooth } from "@/lib/scroll";
@@ -21,13 +22,22 @@ export function Footer() {
           <ul className="space-y-2 text-sm text-white/70">
             {siteConfig.navLinks.map((link) => (
               <li key={link.href}>
-                <a
-                  href={link.href}
-                  onClick={link.href === "/" ? scrollToTopSmooth : undefined}
-                  className="hover:text-white transition-colors"
-                >
-                  {link.label}
-                </a>
+                {link.href === "/" ? (
+                  <Link
+                    href="/"
+                    onClick={scrollToTopSmooth}
+                    className="hover:text-white transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                ) : (
+                  <a
+                    href={link.href}
+                    className="hover:text-white transition-colors"
+                  >
+                    {link.label}
+                  </a>
+                )}
               </li>
             ))}
           </ul>

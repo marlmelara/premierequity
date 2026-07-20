@@ -78,7 +78,7 @@ export function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="scroll-mt-24 bg-cream">
+    <section id="faq" className="scroll-mt-8 bg-cream">
       <div className="mx-auto max-w-4xl px-6 py-20">
         <h2 className="font-heading text-3xl sm:text-4xl font-semibold text-neutral-900 text-center">
           Frequently Asked Questions

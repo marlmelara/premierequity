@@ -17,7 +17,7 @@ const exampleRows = [
 
 export function ComparisonTable() {
   return (
-    <section id="why-us" className="scroll-mt-24 bg-white">
+    <section id="why-us" className="scroll-mt-8 bg-white">
       <div className="mx-auto max-w-7xl px-6 py-20">
         <h2 className="font-heading text-3xl sm:text-4xl font-semibold text-neutral-900 text-center">
           Why Choose Us?

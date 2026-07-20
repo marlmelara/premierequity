@@ -8,8 +8,13 @@
 // the scroll settles (scrollend, with a timeout fallback), because changing the
 // history/fragment mid-scroll cancels the animation.
 export function scrollToTopSmooth(e?: { preventDefault: () => void }) {
-  e?.preventDefault();
   if (typeof window === "undefined") return;
+
+  // On another page (e.g. the legal pages), don't intercept the click — let the
+  // link navigate to "/" so Home and the logo actually route home.
+  if (window.location.pathname !== "/") return;
+
+  e?.preventDefault();
 
   const setHash = () => {
     if (window.location.hash !== "#home") {

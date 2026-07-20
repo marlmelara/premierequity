@@ -27,7 +27,7 @@ export function Process() {
   return (
     <section
       id="advantage"
-      className="relative scroll-mt-24 overflow-hidden bg-cream"
+      className="relative scroll-mt-8 overflow-hidden bg-cream"
     >
       <SectionBackdrop src={PROCESS_BACKDROP} overlay="cream" />
 
